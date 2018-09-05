@@ -1,0 +1,90 @@
+﻿Авіарейси.
+
+Предметні області:
+
+1. Авіарейс:
+- назва рейсу;
+- назва компанії, що здійснює перевезення;
+- місто, із якого виліт;
+- місто, в яке летимо;
+- вартість квитка;
+- час вильоту;
+- марка літака.
+
+2. Міста:
+- назва;
+- країна;
+- кількість жителів;
+- прізвище імя мера;
+
+3. АвіаКомпанія
+- назва;
+- рік заснування;
+- адреса головного офісу (країна, місто, вулиця, дім, поштовий індекс);
+- прізвище імя президента компанії;
+
+
+
+1. Вивід усіх рейсів, міст, авіакомпаній; 
+-- Select all information from cities 
+SELECT * FROM cities ORDER BY name ASC;
+--Select all information from airlines
+SELECT * FROM airlines ORDER BY name ASC;
+--Select all information from fligts
+SELECT * FROM fligts ORDER BY name ASC;
+
+2. Реалізувати добавлення і вилучення рейсів, міст, авіакомпаній;
+-- Add plane model
+INSERT INTO planes (model) VALUES ('Boeing 747');
+
+-- Add addresses
+INSERT INTO addresses (country, city, street, house, zip) VALUES ('Ukraine', 'Kyiv', 'Shevchenka', 23, 56789);
+
+-- Add persons
+INSERT INTO persons (f_name, l_name) VALUES ('Valya', 'Chic');
+
+-- Add airlines
+INSERT INTO airlines (name, founded, address_id, person_id) VALUES (c, 1992, 1, 2)
+
+-- Add cities
+INSERT INTO cities (name, country, citizens, person_id) VALUES ('Ternopil', 'Ukraine', 230000, 4)
+
+-- Add fligts
+INSERT INTO fligts (name, airlines_id, from_city_id, to_city_id, price, departure_time, arrival_time, plane_id) 
+VALUES ('Ternopil-Lviv', 2, 2, 1, 99.50, '2018-09-06 08:23:54+02', '2018-09-06 09:23:54+02', 2)
+
+-- Remove airlines
+DELETE FROM airlines WHERE name = 'Red airlines';
+
+-- Remove cities
+DELETE FROM cities WHERE name = 'Ternopil';
+
+-- Remove fligts
+DELETE FROM fligts WHERE name = 'Ternopil-Lviv';
+
+
+3. Вивід усіх рейсів із заданого міста, в задане місто, заданої компанії, заданої марки літака;
+SELECT f.name, a.name, p.model FROM fligts f
+JOIN airlines a ON f.airlines_id = a.id
+JOIN planes p ON f.plane_id = p.id
+
+4. Пошук по частині назві рейсу, міст, авіакомпаній;
+-- Get fligts by name
+SELECT name FROM fligts WHERE name LIKE '%viv';
+
+-- Get cities by name
+SELECT name FROM cities WHERE name LIKE '%vi%';
+
+-- Get airlines by name
+SELECT name FROM airlines WHERE name LIKE '%line%';
+
+5.Вивід марок літаків, що використовуються заданою компанією;
+SELECT DISTINCT a.name, p.model FROM fligts f
+JOIN planes p ON f.plane_id = p.id
+JOIN fligts ON f.plane_id = p.id
+JOIN airlines a on f.airlines_id= a.id where a.name like 'Red%';
+
+6. Вивід усіх міст, в які літає дана компанія.
+Передбачити можливість сортування + -
+
++Бонус для заданих двох міст зясувати, чи можна долетіти із одного в інше літаками однієї марки; однієї компанії.

@@ -94,4 +94,20 @@ ORDER BY c.name DESC
 
 Передбачити можливість сортування 
 
-+Бонус для заданих двох міст зясувати, чи можна долетіти із одного в інше літаками однієї марки; однієї компанії.
++Бонус для заданих двох міст зясувати, чи можна долетіти із одного в інше літаками заданої марки; заданої компанії.
+
+-- From city - to city by plane model
+SELECT DISTINCT fc.name, tc.name, p.model FROM fligts f
+JOIN cities fc ON f.from_city_id = fc.id
+JOIN cities tc ON f.to_city_id = tc.id
+JOIN planes p ON f.plane_id = p.id
+WHERE fc.name = 'Lviv' AND tc.name = 'Ternopil' AND p.model = 'Airbus A380'
+ORDER BY fc.name DESC
+
+-- From city - to city by airlines name
+SELECT DISTINCT fc.name, tc.name, a.name FROM fligts f
+JOIN cities fc ON f.from_city_id = fc.id
+JOIN cities tc ON f.to_city_id = tc.id
+JOIN airlines a ON f.airlines_id = a.id
+WHERE fc.name = 'Lviv' AND tc.name = 'Ternopil' AND a.name = 'Good airlines'
+ORDER BY fc.name DESC
